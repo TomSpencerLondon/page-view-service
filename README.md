@@ -41,3 +41,17 @@ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
 # RabbitMQ
 spring.rabbitmq.host=rabbitmq
 ```
+
+### Receive messages from rabbitmq broker
+
+```bash
+pageviewservice> Got Message!
+pageviewservice> <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+pageviewservice> <pageViewEvent>
+pageviewservice>     <correlationId>51fd2637-295e-415a-b5c4-6b6c6c764b65</correlationId>
+pageviewservice>     <pageUrl>springfarmework.guru/product/4</pageUrl>
+pageviewservice>     <pageViewDate>2023-03-15T18:31:09.774Z</pageViewDate>
+pageviewservice> </pageViewEvent>
+```
+
+
