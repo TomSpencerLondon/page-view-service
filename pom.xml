@@ -5,7 +5,7 @@
 
 	<groupId>guru.springframework</groupId>
 	<artifactId>page-view-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>page-view-service</name>
@@ -19,15 +19,6 @@
 			<url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
 		</license>
 	</licenses>
-
-	<developers>
-		<developer>
-			<name>John Thompson</name>
-			<email>john@springframework.guru</email>
-			<organization>Spring Framework Guru</organization>
-			<organizationUrl>https://springframework.guru</organizationUrl>
-		</developer>
-	</developers>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -57,7 +48,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>11</java.version>
-		<docker.image.prefix>springframeworkguru</docker.image.prefix>
+		<docker.image.prefix>tomspencerlondon</docker.image.prefix>
 		<docker.image.name>pageviewservice</docker.image.name>
 	</properties>
 
@@ -124,6 +115,11 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -176,68 +172,38 @@
 						</image>
 					</images>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
 				<executions>
 					<execution>
-						<id>attach-sources</id>
+						<id>start</id>
+						<phase>pre-integration-test</phase>
 						<goals>
-							<goal>jar-no-fork</goal>
+							<goal>build</goal>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>stop</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.0.0</version>
 				<executions>
 					<execution>
-						<id>attach-javadocs</id>
+						<id>integration-test</id>
 						<goals>
-							<goal>jar</goal>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
 						</goals>
 					</execution>
+
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.5</version>
-				<executions>
-					<execution>
-						<id>sign-artifacts</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<useReleaseProfile>false</useReleaseProfile>
-					<releaseProfiles>release</releaseProfiles>
-					<goals>deploy</goals>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
